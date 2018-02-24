@@ -52,6 +52,7 @@ class ServerRunCommand extends Command
                 new InputArgument('addressport', InputArgument::OPTIONAL, 'The address to listen to (can be address:port, address, or port)'),
                 new InputOption('docroot', 'd', InputOption::VALUE_REQUIRED, 'Document root, usually where your front controllers are stored'),
                 new InputOption('router', 'r', InputOption::VALUE_REQUIRED, 'Path to custom router script'),
+                new InputOption('controller', 'c', InputOption::VALUE_REQUIRED, 'Name of front controller to use'),
             ))
             ->setDescription('Runs a local web server')
             ->setHelp(<<<'EOF'
@@ -130,7 +131,7 @@ EOF
 
         try {
             $server = new WebServer();
-            $config = new WebServerConfig($documentRoot, $env, $input->getArgument('addressport'), $input->getOption('router'));
+            $config = new WebServerConfig($documentRoot, $env, $input->getArgument('addressport'), $input->getOption('router'), $input->getOption('controller'));
 
             $io->success(sprintf('Server listening on http://%s', $config->getAddress()));
             $io->comment('Quit the server with CONTROL-C.');

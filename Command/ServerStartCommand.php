@@ -53,6 +53,7 @@ class ServerStartCommand extends Command
                 new InputOption('docroot', 'd', InputOption::VALUE_REQUIRED, 'Document root'),
                 new InputOption('router', 'r', InputOption::VALUE_REQUIRED, 'Path to custom router script'),
                 new InputOption('pidfile', null, InputOption::VALUE_REQUIRED, 'PID file'),
+                new InputOption('controller', 'c', InputOption::VALUE_REQUIRED, 'Name of front controller to use'),
             ))
             ->setDescription('Starts a local web server in the background')
             ->setHelp(<<<'EOF'
@@ -140,7 +141,7 @@ EOF
                 return 1;
             }
 
-            $config = new WebServerConfig($documentRoot, $env, $input->getArgument('addressport'), $input->getOption('router'));
+            $config = new WebServerConfig($documentRoot, $env, $input->getArgument('addressport'), $input->getOption('router'), $input->getOption('controller'));
 
             if (WebServer::STARTED === $server->start($config, $input->getOption('pidfile'))) {
                 $io->success(sprintf('Server listening on http://%s', $config->getAddress()));
